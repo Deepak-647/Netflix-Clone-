@@ -2,6 +2,7 @@
 const apikey = "f698128273e9ae27845b26528639770e";
 const apiEndpoint = "https://api.themoviedb.org/3";
 const imgPath = "https://image.tmdb.org/t/p/original";
+const youtubeApi ="AIzaSyDoU6JHyxObZzlFz07SMkvXzjq53Q-w0cc";
 const apiPaths = {
   fetchAllCategories: `${apiEndpoint}/genre/movie/list?api_key=${apikey}`,
   fetchTrending :`${apiEndpoint}/trending/all/day?api_key=${apikey}&language=en-US`,
@@ -11,6 +12,7 @@ const apiPaths = {
   // fetchSimilarMovies:
   fetchMoviesList: (id) =>
     `${apiEndpoint}/discover/movie?api_key=${apikey}&with_genres=${id}`,
+    SearchOnYoutube: (query) => `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&&key=${youtubeApi}`
 };
 
 // // boots up the app
@@ -86,7 +88,7 @@ function buildMoviesSection(list, categoryName) {
   const moviesCont = document.getElementById("movies-cont");
   const moviesListHTML = list.map(item => {
       return`
-      <img class="movie-item" src="${imgPath}${item.backdrop_path}" alt="${item.title}">
+      <img class="movie-item" src="${imgPath}${item.backdrop_path}" alt="${item.title}" onclick="SearchMovieTrailer('${item.title}')">
       `;
             
         
@@ -107,6 +109,29 @@ function buildMoviesSection(list, categoryName) {
   //append HTML into movies container
   moviesCont.append(div);
 }
+
+function SearchMovieTrailer(movieName){
+    if (!movieName) return;
+    fetch(apiPaths.SearchOnYoutube(movieName))
+    .then(res => res.json())
+    .then(res => {
+        const bestResult =res.items[0];
+        const youtubeUrl= `https://www.youtube.com/watch?v=${bestResult.id.videoId}`
+        console.log(youtubeUrl);
+        window.open(youtubeUrl,'_blank');
+    })
+    .catch(err => console.error(err))
+}
+
 window.addEventListener("load", function () {
   init();
+  this.window.addEventListener('scroll',function(){
+    //changing the header color while scrolling 
+    const header = document.getElementById('header');
+    if(this.window.scrollY>20){
+        header.classList.add('black-bg')
+    }else{
+        header.classList.remove('black-bg');
+    }
+  })
 });

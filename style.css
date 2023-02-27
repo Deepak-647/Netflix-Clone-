@@ -23,6 +23,9 @@ header{
     width: 100%;
     z-index: 10;
 }
+header.black-bg{
+    background-color: black;
+}
 .header-cont{
     display: flex;
     flex-direction: row;
@@ -87,9 +90,10 @@ max-width: 100px;
  
 .banner-title{
     color: white;
-    font-size: 78px;
+    font-size: 50px;
     line-height: 1.2;
     margin-bottom: 16px;
+    width: 40%;
 }
 .banner-info{
     color: white;
@@ -144,12 +148,12 @@ bottom: 0;
 width: 100%;
 }
 /* Movies Section Css */
-.movies-cont{
-    
+.movies-section{
+    margin: 41px 0;
 }
 
 .movies-section-heading{
-font-size: 20px;
+font-size: 30px;
 font-weight: 700;
 line-height: 1.2;
 color: white;
